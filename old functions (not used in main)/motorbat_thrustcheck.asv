@@ -1,0 +1,38 @@
+function [P, Total] = motorbat_thrustcheck(motor_combo, battery_sel, Payload)
+    % Function Description
+    % Takes in a motor combo number, battery, and payload value and checks
+    % if the combination passes the required threshold from the mission
+    % profile
+
+    %outputs: 
+
+
+    % Import tables, this is done in the functions but we wouldn't have access
+    % to them outside the functions so we are importing them here
+    data1 = readtable('Acceptable_Motors.csv', "Delimiter", ',' );
+    data2 = readtable('Battery Data.csv', "Delimiter", ',' ); 
+    i = motor_combo;
+    j = battery_sel; 
+    
+    
+    WeightFS = 1.2; % Dimensionless 
+    
+    % Unit Conversions
+    Payload = Payload*0.453592; % lb -> kg conversion
+    
+    
+    MotorW = (MotorCombo(i).Weight_g)/1000;  % g--> kg
+    TotalMotorW = 8*MotorW; % computes total weight for all 8 motors
+    BatteryW = BatteryInfo(j).Weight_kg; % Already in kg 
+    TotalDownForce = (Payload+TotalMotorW+BatteryW)*9.8*WeightFS; % This includes weight factor of safety 1.2
+    MAXThrustEst = TotalDownForce*2;  
+    MotorMAXThrust = MAXThrustEst/8; 
+    MotorThrust_Newton = MotorCombo(i).Thrust_g.t100/1000*9.81; 
+            
+            if (MotorThrust_Newton > MotorMAXThrust)
+                P = true; 
+            else 
+                P = false; 
+            end
+        
+end 
