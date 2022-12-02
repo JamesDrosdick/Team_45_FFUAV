@@ -2,8 +2,8 @@
 % housekeeping
 clc; clear; close all;
 % initialize
-Passed_configs = zeros(1,7);
-Payload = 30; %lbs
+Passed_configs = zeros(1,6);
+Payload = 32; %lbs
 t = 0;
 Distance = 16; %distance in miles
 % loop
@@ -29,7 +29,7 @@ end
 %% find best run
 format shortG
 T = array2table(Passed_configs);
-T.Properties.VariableNames(1:7) = {'MP#','B#','# of Bats','BCR mAh','BCRP','Mission Time (min)','Payload lbs'};
+T.Properties.VariableNames(1:6) = {'MP#','B#','# of Bats','BCR mAh','BCRP','Payload lbs'};
 disp(T)
 % find best run
 [BCRP,I] = max(Passed_configs(:,5));

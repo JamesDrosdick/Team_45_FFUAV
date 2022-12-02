@@ -1,4 +1,4 @@
-function [Check,BCR,BCRP] = MissionSim(D,B,Distance,TDF)
+function [Check,BCR,BCRP, Mission_Est_t] = MissionSim(D,B,Distance,TDF)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 %% Load Battery Capacity  BCR = Battery Capacity Remaining
@@ -16,9 +16,8 @@ Takeoff_Est_t = F_Height/Takeoff_s; % in seconds
 Takeoff_Total_DF = TDF + Takeoff_Drag;
 % Determine Thrust and Current Needed for lift (approximately equilibrium)
 [thrust_indx, ~] = ThrustGivenF_WIP(D, Takeoff_Total_DF);
-Battery_Cap_Discharge = 0.8; 
 Takeoff_Current_Draw = 8*D.Current_A(thrust_indx, 2);
-Takeoff_Capacity_Usage_mAh = (Takeoff_Est_t / 3600) * (Takeoff_Current_Draw*1000) / Battery_Cap_Discharge;  
+Takeoff_Capacity_Usage_mAh = (Takeoff_Est_t / 3600) * (Takeoff_Current_Draw*1000);  
 %% calculate battery remaining
 BCR = BCR - Takeoff_Capacity_Usage_mAh;
 
@@ -42,13 +41,13 @@ S = solve([eqn1, eqn2], [Ft,t1], "Real",true);
 Thrust_Est_Cruise = double(S.Ft(1,1)); 
 Angle_Est_Cruise = double(S.t1(1,1));
 
-Cruising_Est_t = (Distance/Cruising_s)/60; % in minutes
+Cruising_Est_t = (Distance/Cruising_s); % in seconds
 
 [thrust_indx2, ~] = ThrustGivenF_WIP(D, Thrust_Est_Cruise) ;
 
 
 Flight_Current_Draw = 8*D.Current_A(thrust_indx2, 2);
-Flight_Capacity_Usage_mAh = (((Cruising_Est_t/60)*Flight_Current_Draw*1000)/Battery_Cap_Discharge); % mAh
+Flight_Capacity_Usage_mAh = (((Cruising_Est_t/3600)*Flight_Current_Draw*1000)); % mAh
 %% calculate battery remaining
 BCR = BCR - Flight_Capacity_Usage_mAh;
 BCRP = BCR / str2double(B.Battery_Cap_mAH) * 100;
@@ -56,7 +55,9 @@ BCRP = BCR / str2double(B.Battery_Cap_mAH) * 100;
 
 %% Landing -------------------------------------------------------------
 %% Check that there is Battery remaining
-if (BCRP > 10)
+%% mission time
+Mission_Est_t = (Takeoff_Est_t + Cruising_Est_t)/60; %Time in minutes
+if (BCRP > 20)
     Check = true;
 else
     Check = false;

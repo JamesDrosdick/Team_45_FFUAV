@@ -4,7 +4,7 @@ clc; clear; close all;
 %% Declarations
 Passed_configs = zeros(1,6);
 best = [];
-Payload = 35; %lbs
+Payload = 30; %lbs
 Distance = 12; %distance in miles
 t = 0;
 % loop
