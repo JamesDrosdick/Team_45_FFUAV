@@ -2,16 +2,16 @@
 % housekeeping
 clc; clear; close all;
 % initialize
-Passed_configs = zeros(1,7);
-Payload = 30; %lbs
+Passed_configs = cell(1,8);
+Payload = 25; %lbs
 t = 0;
 Distance = 16; %distance in miles
 % loop
 for i = 1:10
     D = James_MotorCombo(i);
-    for j = 1:15
+    for j = 15
         B = BatteryInfo(j);
-        for k = 1:3
+        for k = 1:2
             % checks
             [CurrentCheck, ThrustCheck, TDF] = Current_thrust_Check(D,B,Payload,k);
             % Tracking 
@@ -20,7 +20,7 @@ for i = 1:10
                 [Mission_Check, BCR, BCRP, Mission_Time] = MissionSim(D, B, Distance, TDF);
                 if (Mission_Check == 1)
                     t = t+1;
-                    Passed_configs(t,:) = [i,j,k, BCR, BCRP, Mission_Time, Payload];
+                    PC(t,:) = {D.Motor_Name D.PropD B.Battery_Name k BCR BCRP Mission_Time Payload};
                 end
             end
         end 
@@ -28,14 +28,22 @@ for i = 1:10
 end
 %% find best run
 format shortG
-T = array2table(Passed_configs);
-T.Properties.VariableNames(1:7) = {'MP#','B#','# of Bats','BCR mAh','BCRP','Mission Time (min)','Payload lbs'};
+T = cell2table(PC);
+T.Properties.VariableNames(1:8) = {'Motor','Prop Diameter (in)','Battery','# of Bats','Battery Remaining (mAh)','Battery Remaining (%)','Mission Time (min)','Payload (lbs)'};
 disp(T)
 % find best run
-[BCRP,I] = max(Passed_configs(:,5));
-best = Passed_configs(I,:);
+[BCRP,I] = max(cell2mat(PC(1:end,6)));
+best = PC(I,:);
 best_percent = num2str(BCRP) + "%";
 format shortG
-fprintf('Best run configuration is [')
-fprintf('%g, ',best(1:end-1));
-fprintf('%g]\nwith %s Battery Remaining\n', best(end),best_percent)
+fprintf('Best run configuration is \n[')
+fprintf('%s, ',best{1,1})
+fprintf('%g, ',best{1,2})
+fprintf('%s, ',best{1,3})
+for i = 4:5
+    fprintf('%g, ',best{1,i})
+end
+fprintf('%s, ',best_percent)
+fprintf('%g, ',best{1,7})
+fprintf('%g]\nwith %s Battery Remaining\n', best{1,end},best_percent)
+
