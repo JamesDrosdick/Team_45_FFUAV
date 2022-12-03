@@ -17,7 +17,7 @@ function S = Structure(D, B, NB, Payload)
     Motor_Mass = D.Weight_g; 
     R = (Prop_Dia/2)*25.4; 
     L = (R*1.1)/sind(22.5)
-    S = plotArm(L,0,R, Motor_Dia, Motor_Len, Motor_Mass, Bdim)
+    S = plotArm(L,0,R, Motor_Dia, Motor_Len, Motor_Mass, Bdim, Payload)
  
     
 end 

@@ -1,4 +1,4 @@
-function P = plotArm(L, offset, R, MotorDia, MotorLen, M1, Bdim)
+function [L] = plotArm(L, offset, R, MotorDia, MotorLen, M1, Bdim, Payload)
     
     Blen = Bdim.Bat_Length;
     Bwid = Bdim.Bat_Width;
@@ -174,9 +174,9 @@ function P = plotArm(L, offset, R, MotorDia, MotorLen, M1, Bdim)
     y_pay = offset; 
     z_pay = offset - 450/2; 
     
-    X_cm = (x_pay*(25*lb2gram) + Xcm_Mot*(M1*8))/((M1*8)+(25*lb2gram)); 
-    Y_cm = (y_pay*(25*lb2gram) + Ycm_Mot*(M1*8))/((M1*8)+(25*lb2gram)); 
-    Z_cm = (z_pay*(25*lb2gram) + Zcm_Mot*(M1*8))/((M1*8)+(25*lb2gram)); 
+    X_cm = (x_pay*(Payload*lb2gram) + Xcm_Mot*(M1*8))/((M1*8)+(Payload*lb2gram)); 
+    Y_cm = (y_pay*(Payload*lb2gram) + Ycm_Mot*(M1*8))/((M1*8)+(Payload*lb2gram)); 
+    Z_cm = (z_pay*(Payload*lb2gram) + Zcm_Mot*(M1*8))/((M1*8)+(Payload*lb2gram)); 
     
     
     plot3([offset-Bwid/2, offset+Bwid/2, offset+Bwid/2, offset-Bwid/2, offset-Bwid/2 ],[offset + Blen/2, offset+Blen/2, offset-Blen/2, offset-Blen/2, offset+Blen/2],[offset + huboffsetZ + Bhei/2,offset + huboffsetZ+ Bhei/2,offset + huboffsetZ+ Bhei/2,offset + huboffsetZ+ Bhei/2,offset + huboffsetZ+ Bhei/2])
@@ -193,7 +193,6 @@ function P = plotArm(L, offset, R, MotorDia, MotorLen, M1, Bdim)
     yval = [oct(row,2), oct(1,2)]; 
     zval = [oct(row,3), oct(1,3)]; 
     plot3(xval,yval,zval, 'c') 
-    
     
     plot3(Xcm_Mot,Ycm_Mot,Zcm_Mot, 'or'); 
     plot3(X_cm, Y_cm, Z_cm, 'ob')
