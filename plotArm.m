@@ -1,4 +1,29 @@
-function P = plotArm(L, offset, R, MotorDia, MotorLen, M1)
+function P = plotArm(L, offset, R, MotorDia, MotorLen, M1, Bdim)
+    
+    Blen = Bdim.Bat_Length;
+    Bwid = Bdim.Bat_Width;
+    Bhei = Bdim.Bat_Height;
+    
+    huboffsetZ = 50 % mm
+
+    lb2gram = 453.592; 
+    % Flight Controller
+    Pix_Len = 82; % mm 
+    Pix_Wid = 50; % mm 
+    Pix_Hgt = 16;  % mm
+
+
+    
+    % Payload
+    
+    
+    % ESC
+    ESC_Len = 68; % mm
+    ESC_Wid = 25; % mm 
+    ESC_Hgt = 8; % mm
+    
+
+
     % Arms
     x = [offset, offset+L]; 
     y = [offset, offset];
@@ -25,7 +50,7 @@ function P = plotArm(L, offset, R, MotorDia, MotorLen, M1)
     y8 = [offset, offset-L/sqrt(2)];
     z8 = [offset, offset]; 
     
-    % Props 
+%     Props 
     th = 0:pi/50:2*pi;
     xunit = R*cos(th) + offset+L;
     yunit = R*sin(th) + offset;
@@ -52,7 +77,7 @@ function P = plotArm(L, offset, R, MotorDia, MotorLen, M1)
     yunit8 = R*sin(th) + offset+L/sqrt(2);
     zunit8 = zeros(length(yunit))+offset+MotorLen;
     
-    % Motor
+%     Motor
     R1 = MotorDia/2
     xmotor = R1*cos(th) + offset+L;
     ymotor = R1*sin(th) + offset;
@@ -97,7 +122,7 @@ function P = plotArm(L, offset, R, MotorDia, MotorLen, M1)
     plot3(x6,y6,z6, 'b')
     plot3(x7,y7,z7, 'b')
     plot3(x8,y8,z8, 'b')
-    plot3(xunit,yunit,zunit, 'r')
+     plot3(xunit,yunit,zunit, 'r')
     plot3(xunit2,yunit2,zunit2, 'r')
     plot3(xunit3,yunit3,zunit3, 'r')
     plot3(xunit4,yunit4,zunit4, 'r')
@@ -113,7 +138,7 @@ function P = plotArm(L, offset, R, MotorDia, MotorLen, M1)
     plot3(xmotor6,ymotor6,zmotor6, 'g')
     plot3(xmotor7,ymotor7,zmotor7, 'g')
     plot3(xmotor8,ymotor8,zmotor8, 'g')
-    plot3(Xcm_Mot,Ycm_Mot,Zcm_Mot, 'or'); 
+    plot3(Xcm_Mot,Ycm_Mot,Zcm_Mot, 'ob'); 
     
     figure(2)
     view(3)
@@ -143,9 +168,35 @@ function P = plotArm(L, offset, R, MotorDia, MotorLen, M1)
     plot3(xmotor6,ymotor6,zmotor6, 'g')
     plot3(xmotor7,ymotor7,zmotor7, 'g')
     plot3(xmotor8,ymotor8,zmotor8, 'g')
-    zlim([400,600]); 
+    zlim([-500,500]); 
+    
+    x_pay = offset; 
+    y_pay = offset; 
+    z_pay = offset - 450/2; 
+    
+    X_cm = (x_pay*(25*lb2gram) + Xcm_Mot*(M1*8))/((M1*8)+(25*lb2gram)); 
+    Y_cm = (y_pay*(25*lb2gram) + Ycm_Mot*(M1*8))/((M1*8)+(25*lb2gram)); 
+    Z_cm = (z_pay*(25*lb2gram) + Zcm_Mot*(M1*8))/((M1*8)+(25*lb2gram)); 
+    
+    
+    plot3([offset-Bwid/2, offset+Bwid/2, offset+Bwid/2, offset-Bwid/2, offset-Bwid/2 ],[offset + Blen/2, offset+Blen/2, offset-Blen/2, offset-Blen/2, offset+Blen/2],[offset + huboffsetZ + Bhei/2,offset + huboffsetZ+ Bhei/2,offset + huboffsetZ+ Bhei/2,offset + huboffsetZ+ Bhei/2,offset + huboffsetZ+ Bhei/2])
+    %oct_x = [offset-tand(22.5)*(Blen/2+50),offset+tand(22.5)*(Blen/2+50),offset+tand(22.5)*(Blen/2+50),offset-tand(22.5)*(Blen/2+50),offset-tand(22.5)*(Blen/2+50)]
+    oct_Side = (offset+tand(22.5)*(Blen/2+50))-(offset-tand(22.5)*(Blen/2+50))
+    pgon = nsidedpoly(8,'Center',[offset offset], 'SideLength',oct_Side) 
+    oct = [pgon.Vertices(:,1), pgon.Vertices(:,2), ones(length(pgon.Vertices)).*(offset+huboffsetZ)];
+%     oct(length(oct)+1,1) = oct(1,1);
+%     oct(length(oct)+1,2) = oct(1,2); 
+%     oct(length(oct)+1,3) = oct(1,3); 
+    plot3(oct(:,1), oct(:,2), oct(:,3), 'c')
+    [row, ~] = size(oct)
+    xval = [oct(row,1), oct(1,1)]; 
+    yval = [oct(row,2), oct(1,2)]; 
+    zval = [oct(row,3), oct(1,3)]; 
+    plot3(xval,yval,zval, 'c') 
+    
     
     plot3(Xcm_Mot,Ycm_Mot,Zcm_Mot, 'or'); 
+    plot3(X_cm, Y_cm, Z_cm, 'ob')
     
     P = []; 
 end 
