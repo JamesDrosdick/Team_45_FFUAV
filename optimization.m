@@ -7,11 +7,11 @@ Payload = 25; %lbs
 t = 0;
 Distance = 16; %distance in miles
 % loop
-for i = 1:10
+for i = 5:10
     D = James_MotorCombo(i);
-    for j = 15
+    for j = 1:15
         B = BatteryInfo(j);
-        for k = 1:2
+        for k = 1:3
             % checks
             [CurrentCheck, ThrustCheck, TDF] = Current_thrust_Check(D,B,Payload,k);
             % Tracking 
