@@ -20,14 +20,14 @@ Threshold_C = FS_C * mTotal_C;
 % Unit Conversions
 Payload = Payload * 0.453592; % lb - > kg
 % Weight Factor of Safety
-WeightFS = 1;
+WeightFS = 1.2;
 %Total Down Force
 % TotalDownForce = 9.81 * WeightFS * ( Payload + (8*D.Weight_g/1000) + B.Weight_kg*NB );
 % Max thrust needed from motor estimation
 % Motor_MaxThrustEst = 2.0 * 9.81 * WeightFS /8 * ( Payload + (8*D.Weight_g/1000) + B.Weight_kg*NB );
 % For later - >  When body weight is calculated/estimated
- TotalDownForce = 9.81 * WeightFS * ( Payload + (8*D.Weight_g/1000) + B.Weight_kg*NB + Chassis );
- Motor_MaxThrustEst = 2 / 8 * TotalDownForce; 
+ TotalDownForce = 9.81 * WeightFS * ( Payload + (8*D.Weight_g/1000) + B.Weight_kg*NB + 14.8 );
+ Motor_MaxThrustEst = 2 / 8  * 9.81 * WeightFS * ( Payload + (8*D.Weight_g/1000) + B.Weight_kg*NB + Chassis );
 % Thrust check
     if (Motor_MaxThrustEst > max(D.Thrust_N(:,2)) )
         Thrust_Check = false;

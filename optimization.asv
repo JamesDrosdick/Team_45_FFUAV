@@ -4,17 +4,15 @@ clc; clear; close all;
 % initialize
 Passed_configs = cell(1,8);
 Payload = 25; %lbs
-% Chassis = 14.8; % Kg - Aluminum
-% Chassis = 13.1 % kg - Carbon tubes, and aluminum
- Chassis = 12.31 % Kg - Carbon Tubes, Hub, alum joint
+Chassis = 14.8 % Kg - Al
 t = 0;
-Distance = 11; %distance in miles
+Distance = 16; %distance in miles
 % loop
 for i = 5:10
     D = James_MotorCombo(i);
-    for j = 6
+    for j = 1:15
         B = BatteryInfo(j);
-        for k = 1
+        for k = 1:3
             % checks
             [CurrentCheck, ThrustCheck, TDF] = Current_thrust_Check(D,B,Payload,k,Chassis);
             % Tracking 
