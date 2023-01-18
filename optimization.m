@@ -4,9 +4,9 @@ clc; clear; close all;
 % initialize
 Passed_configs = cell(1,8);
 Payload = 25; %lbs
-% Chassis = 14.8; % Kg - Aluminum
-% Chassis = 13.1 % kg - Carbon tubes, and aluminum
- Chassis = 12.31 % Kg - Carbon Tubes, Hub, alum joint
+Chassis = 14.8; % Kg - Aluminum 6061
+% Chassis = 13.1; % kg - Carbon tubes, and aluminum
+% Chassis = 12.31; % Kg - Carbon Tubes, Hub, alum joint
 t = 0;
 Distance = 11; %distance in miles
 % loop
