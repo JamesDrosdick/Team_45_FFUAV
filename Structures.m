@@ -3,7 +3,7 @@ clc;
 clear;
 close all; 
 
-D = James_MotorCombo(9)
+D = James_MotorCombo(10)
 B = BatteryInfo(6)
 Bdim = Bat_Dimen(B)
 S1 = Structure(D,B,1,25)
