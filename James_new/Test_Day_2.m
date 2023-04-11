@@ -4,7 +4,7 @@ clear; clc; close all;
 
 load('Propulsion_Test_Day_1.mat')
 
-%% plot raw data
+%% plot raw data - Test Day 1
 packet_num = [Datalink_Day1_set1; Datalink_Day1_set2; Datalink_Day1_set3; Datalink_Day1_set4];
 % Plotting
 figure(1)
@@ -28,9 +28,9 @@ while i < height(packet_num)
     % read all current values until it cannot
     while(save)
         k = k + 1;
-        outputCurrent(k,Trial_ID) = packet_num.OutputCurrent(i);
+        OutputCurrent(k,Trial_ID) = packet_num.OutputCurrent(i);
         outputVoltage(k,Trial_ID) = packet_num.Voltage(i);
-        outputPower(k,Trial_ID) = outputCurrent(k,Trial_ID)* outputVoltage(k,Trial_ID);
+        outputPower(k,Trial_ID) = OutputCurrent(k,Trial_ID)* outputVoltage(k,Trial_ID);
         RPM(k,Trial_ID) = packet_num.RPM(i);
         i = i + 1;
         % look for end of trial
@@ -110,7 +110,7 @@ title('Throttle % to RPM')
 clear;
 load('Test_Day_2.mat')
 
-%% plot raw data
+%% plot raw data - Test Day 2
 packet_num = [Data1; Data2; Data3; Data4];
 figure(6)
 plot(packet_num.PackageNumber, packet_num.RPM)
@@ -127,20 +127,20 @@ save = false;
 while i < height(packet_num)
     i = i+1;
     % Check if current value is reading
-    if(packet_num.OutputCurrent(i) > 0)
+    if(packet_num.InputCurrent(i) > 0)
         save = true;
         Trial_ID = Trial_ID + 1;
     end
     % read all current values until it cannot
     while(save)
         k = k + 1;
-        outputCurrent(k,Trial_ID) = packet_num.OutputCurrent(i);
+        InputCurrent(k,Trial_ID) = packet_num.InputCurrent(i);
         outputVoltage(k,Trial_ID) = packet_num.Voltage(i);
-        outputPower(k,Trial_ID) = outputCurrent(k,Trial_ID)*outputVoltage(k,Trial_ID);
+        outputPower(k,Trial_ID) = InputCurrent(k,Trial_ID)*outputVoltage(k,Trial_ID);
         RPM(k,Trial_ID) = packet_num.RPM(i);
         i = i + 1;
         % look for end of trial
-        if(packet_num.OutputCurrent(i) <= 0)
+        if(packet_num.InputCurrent(i) <= 0)
             save = false;
             k = 0;
         end

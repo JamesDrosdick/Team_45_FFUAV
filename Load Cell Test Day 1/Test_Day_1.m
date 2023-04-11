@@ -16,7 +16,6 @@ plot(packet_num.PackageNumber, packet_num.OutputCurrent)
 % Initialize Variables
 i = 0;
 k = 0;
-j = 0;
 Trial_ID = 0;
 save_Current = false;
 % Loop
