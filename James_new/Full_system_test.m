@@ -23,6 +23,9 @@ for j = 1
         plot(trial.(['Set',num2str(j)]).(['PackageNumber',char_i]), trial.(['Set',num2str(j)]).(['InputCurrent',char_i]))
     end
 end
+title("Full System Raw ESC Currents")
+xlabel("Packet Number")
+ylabel("Current (Amps)")
 
 % Initialize Variables
 k = 0;

@@ -235,11 +235,11 @@ ylabel('Power [W]')
 title('Single Motor: Experiementally Projected P vs T')
 
 figure(5)
-plot(Thrust*453.5928*8,Average_power_at_each_throttle*8,'b--o')
+plot(Thrust*453.5928*8/1000,Average_power_at_each_throttle*8/1000,'b--o')
 grid on
 hold on
-xlabel('Total thrust [g]')
-ylabel('Total Power [watts]')
+xlabel('Total thrust [Kg]')
+ylabel('Total Power [KW]')
 title('Full System: Experiementally Projected P vs T')
 
 figure(6)
@@ -337,7 +337,7 @@ figure(4)
 plot(Thrust*453.5928, Average_power_at_each_throttle,'r--o') % convert thrust to lbs --> grams, 
 title('Single Motor: Experiementally Projected P vs T')
 figure(5)
-plot(Thrust*453.5928*8,Average_power_at_each_throttle*8,'r--o')
+plot(Thrust*453.5928*8/1000,Average_power_at_each_throttle*8/1000,'r--o')
 figure(6)
 plot(throttle_percent,Average_RPM_at_each_throttle,'r--o')
 
@@ -356,6 +356,8 @@ figure(8)
 plot(packets.PackageNumber, packets.InputCurrent)
 grid on
 title('Day 3: raw output current')
+ylabel('Current (Amps)')
+xlabel('Packet Number')
 
 % Initialize Variables
 i = 0;
@@ -436,11 +438,11 @@ title('Single Motor: Experiementally Projected P vs T')
 legend('Day 1: Low Battery','Day 2:Full Battery','Day 3: Full Battery','Location','northwest')
 
 figure(5)
-plot(Thrust*453.5928*8,Average_power_at_each_throttle*8,'g--o')
+plot(Thrust*453.5928*8/1000,Average_power_at_each_throttle*8/1000,'g--o')
 grid on
 hold on
-xlabel('Total thrust [g]')
-ylabel('Total Power [watts]')
+xlabel('Total thrust [Kg]')
+ylabel('Total Power [KW]')
 title('Full System: Experiementally Projected P vs T')
 legend('Day 1: Low Battery','Day 2:Full Battery','Day 3: Full Battery','Location','northwest')
 
